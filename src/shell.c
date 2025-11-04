@@ -1,5 +1,8 @@
 #include "shell.h"
 
+char* history[HISTORY_SIZE];
+int history_count = 0;
+
 char* read_cmd(char* prompt, FILE* fp) {
     printf("%s", prompt);
     char* cmdline = (char*) malloc(sizeof(char) * MAX_LEN);
@@ -14,7 +17,7 @@ char* read_cmd(char* prompt, FILE* fp) {
         free(cmdline);
         return NULL; // Handle Ctrl+D
     }
-    
+
     cmdline[pos] = '\0';
     return cmdline;
 }
@@ -38,7 +41,7 @@ char** tokenize(char* cmdline) {
 
     while (*cp != '\0' && argnum < MAXARGS) {
         while (*cp == ' ' || *cp == '\t') cp++; // Skip leading whitespace
-        
+
         if (*cp == '\0') break; // Line was only whitespace
 
         start = cp;
@@ -80,10 +83,21 @@ int handle_builtin(char** arglist) {
         printf("  exit - Exit the shell\n");
         printf("  help - Display this help message\n");
         printf("  jobs - Job control (not yet implemented)\n");
+        printf("  history - Show command history\n");
         return 1;
     }
     else if (strcmp(arglist[0], "jobs") == 0) {
         printf("Job control not yet implemented.\n");
+        return 1;
+    }
+    else if (strcmp(arglist[0], "history") == 0) {
+        if (history_count == 0) {
+            printf("No commands in history.\n");
+        } else {
+            for (int i = 0; i < history_count; i++) {
+                printf("%d  %s\n", i + 1, history[i]);
+            }
+        }
         return 1;
     }
     return 0;  // Not a built-in command

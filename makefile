@@ -38,5 +38,8 @@ $(BIN_DIR):
 clean:
 	rm -rf $(OBJ_DIR)/*.o $(TARGET)
 
-.PHONY: all clean
+# Run the shell (builds first if needed)
+run: $(TARGET)
+	@$(TARGET)
+.PHONY: all clean run
 
