@@ -9,6 +9,10 @@
 #include <sys/wait.h>
 #include <errno.h>
 
+// Include GNU Readline headers
+#include <readline/readline.h>
+#include <readline/history.h>
+
 #define MAX_LEN 512
 #define MAXARGS 10
 #define ARGLEN 30

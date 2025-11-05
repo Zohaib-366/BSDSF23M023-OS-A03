@@ -11,7 +11,7 @@ OBJS = $(OBJ_DIR)/main.o $(OBJ_DIR)/shell.o $(OBJ_DIR)/execute.o
 # Compiler and flags
 CC = gcc
 CFLAGS = -I$(INCLUDE_DIR) -Wall -g
-LDFLAGS = -lreadline   # Link with GNU Readline
+LDFLAGS = -lreadline -lhistory  # Link with GNU Readline and add History support
 
 # Target binary
 TARGET = $(BIN_DIR)/myshell

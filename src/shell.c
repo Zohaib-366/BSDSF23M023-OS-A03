@@ -4,22 +4,19 @@ char* history[HISTORY_SIZE];
 int history_count = 0;
 
 char* read_cmd(char* prompt, FILE* fp) {
-    printf("%s", prompt);
-    char* cmdline = (char*) malloc(sizeof(char) * MAX_LEN);
-    int c, pos = 0;
+    // Use GNU Readline instead of manual input
+    char* cmdline = readline(prompt);
 
-    while ((c = getc(fp)) != EOF) {
-        if (c == '\n') break;
-        cmdline[pos++] = c;
+    if (cmdline == NULL) {
+        return NULL; // Handle Ctrl+D (EOF)
     }
 
-    if (c == EOF && pos == 0) {
-        free(cmdline);
-        return NULL; // Handle Ctrl+D
+    // If not empty, add to Readline's own history
+    if (strlen(cmdline) > 0) {
+        add_history(cmdline);
     }
 
-    cmdline[pos] = '\0';
-    return cmdline;
+    return cmdline; // readline() allocates memory automatically
 }
 
 char** tokenize(char* cmdline) {
@@ -55,7 +52,7 @@ char** tokenize(char* cmdline) {
     }
 
     if (argnum == 0) { // No arguments were parsed
-        for(int i = 0; i < MAXARGS + 1; i++) free(arglist[i]);
+        for (int i = 0; i < MAXARGS + 1; i++) free(arglist[i]);
         free(arglist);
         return NULL;
     }
