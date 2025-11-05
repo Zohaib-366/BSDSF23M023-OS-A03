@@ -1,0 +1,12 @@
+LICENSE
+README.md
+bin
+files.txt
+include
+makefile
+obj
+output.txt
+sorted_files.txt
+src
+test.txt
+unique_sorted.txt
